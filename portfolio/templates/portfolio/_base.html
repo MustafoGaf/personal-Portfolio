@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="{% block urlimg %}{% endblock %}" />
+    <link rel="stylesheet" href="{% static 'portfolio/style.css' %}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"
+    ></script>
+    <script src="{% static 'script/app.js' %}" defer>
+  
+    </script>
+
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+      .container1 {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 15px 20px 0 20px;
+      }
+      .text_p {
+        width: 100%;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body class="" id="top">
+    <div class="container1 flex justify-between  pt-[15px] items-center">
+      <div>
+        <img
+          class="w-[45px] h-[45px] rounded-[20px]"
+          src="https://www.kartinki24.ru/uploads/gallery/thumb/25/kartinki24_ru_love_85.jpg"
+          alt="LOGO"
+        />
+      </div>
+      <div class="tab:hidden">
+        <input
+          type="text"
+          placeholder="Поиск товара"
+          class="h-[40px] w-[100%] px-[29px] rounded-[20px] bg-[#EFE1E1]"
+        />
+      </div>
+      <div class="user">
+        {% if user.is_authenticated %}
+        <h1>{{ user.username }}</h1>
+        <form action='{% url "logoutuser" %}' method="post">
+          {% csrf_token %}
+          <button type="submit">LoGout</button>
+        </form>
+
+        {% else %}
+        <a href="{% url 'signupuser' %}"> Sign UP </a>
+        <a href="{% url 'loginuser' %}"> Login </a>
+        {% endif %}
+      </div>
+      <div class="hidden tab:block cursor-pointer" id="burger">
+        <span class="w-[40px] h-[3px] bg-[black] block"></span>
+        <span class="w-[40px] h-[3px] bg-[black] block mt-2"></span>
+        <span class="w-[40px] h-[3px] bg-[black] block mt-2"></span>
+      </div>
+    </div>
+    <nav class="tab:hidden nav_list container1">
+      <ul
+        class="flex justify-between w-[100%] text-[16px] font-[500] text-[#2c2424] tab:flex-col tab:text-center tab:bg-[#e2dfdf] tab:py-[20px] rounded-[10px] tab:gap-[15px]"
+      >
+        <li><a href="/">Home</a></li>
+        <li><a href="/shop">Shop</a></li>
+
+        <li><a href="/chat">Chat</a></li>
+        <li><a href="{% url 'blog' %}">Blogs</a></li>
+        
+        <li><a href="/admin">Admin</a></li>
+        <li>
+          <div class="hidden tab:block">
+            <input
+              type="text"
+              placeholder="Поиск товара"
+              class="h-[40px] w-[80%] px-[29px] rounded-[20px] bg-[#ebe0e0]"
+            />
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="container1">{% block content %}{% endblock %}</div>
+
+    {% block footer %}{% endblock %}
+    
+  </body>
+</html>

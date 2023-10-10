@@ -1,0 +1,14 @@
+Lgin
+
+<h1>
+    {{ error }}
+</h1>
+<form method="post">
+
+{{ form.as_p }} 
+
+
+{% csrf_token %}
+
+<button type="submit">Login</button>
+</form>

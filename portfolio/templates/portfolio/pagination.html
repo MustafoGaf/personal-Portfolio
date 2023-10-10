@@ -1,0 +1,24 @@
+
+<h1> page {{ page.number }} of {{ page.paginator.num_pages }} </h1>
+
+<nav aria-label="Page navigation example">
+  <ul class="inline-flex -space-x-px text-sm">
+    {% if page.has_previous %}
+    <li>
+      <a href="?page={{ page.previous_page_number }}" class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+    </li>
+    {% endif %}
+    
+    <li>
+      <a href="?page={{ page.number }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ page.number}}</a>
+    </li>
+  
+    {% if page.has_next %}
+     <li>
+      <a href="?page={{ page.next_page_number }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+    </li>
+    {% endif %}
+   
+   
+  </ul>
+</nav>

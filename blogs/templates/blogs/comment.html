@@ -1,0 +1,5 @@
+{% extends 'blogs/blog.html' %} {% block title %} Comment {% endblock %} {%block content %} {% if comment %}
+<a href="/blog/{{ blog.id }}">Back</a>
+<h2>You comment has been added.</h2>
+{% else %} {% include 'blogs/includes/comment_form.html' %} {% endif %}
+{% endblock %}

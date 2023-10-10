@@ -1,0 +1,26 @@
+{% extends 'portfolio/_base.html' %} 
+{% block urlimg %}https://avatars.mds.yandex.net/i?id=6dc05264841f10d3b371677512b72924-4948622-images-thumbs&n=13{% endblock %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1 class="text-[50px] text-[red]">mySite</h1>
+<div class="flex   flex-wrap lg:block">
+    {% for project in project %}
+    <div class="w-[100%]">
+        <h1 class="text-[15px] text-[green]">
+    {{ project.title }}
+
+        </h1>
+
+    <img class="max-w-[93vw]" src={{ project.image.url }} alt="rtret">
+    </div>
+    {% endfor %}
+</div>
+<h1 class="text-[20px] font-sans font-bold text-center">
+    Home Page
+</h1>
+<p class="text-[15px] first-letter:text-[30px]">
+Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt fugit reprehenderit omnis placeat adipisci vitae? Quos culpa reprehenderit non debitis ut, unde aliquam eaque nostrum enim doloremque autem tenetur numquam. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime assumenda, quas, distinctio ab accusantium temporibus, eveniet vel necessitatibus modi blanditiis labore? Sapiente qui consectetur molestiae sunt neque reiciendis fugit nam.
+</p>
+
+
+{% endblock %}

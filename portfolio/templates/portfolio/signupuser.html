@@ -1,0 +1,14 @@
+sign up user page
+
+<h1>
+    {{ error }}
+</h1>
+<form method="post">
+
+{{ form.as_p }} 
+
+
+{% csrf_token %}
+
+<button type="submit">Send</button>
+</form>

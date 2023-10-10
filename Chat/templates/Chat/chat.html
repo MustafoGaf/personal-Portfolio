@@ -1,0 +1,225 @@
+{% extends 'portfolio/_base.html' %} {% block title %}Chat{% endblock %} {% load
+static %} {% block content %} {% if user.is_authenticated %}
+<div>
+  <div class="left">
+    {% if user_select %}
+    <ul>
+      {% for useri in users %}
+      <li>
+        <form id="post-form" method="POST" action="/chat/checkview">
+          {% csrf_token %}
+          <input
+            type="hidden"
+            name="room_name"
+            id="room_name"
+            width="100px"
+            value="{{ user.username}}|{{useri}}"
+          />
+          <input
+            type="hidden"
+            value="{{user.username}}"
+            name="username"
+            id="username"
+            width="100px"
+          />
+          <input
+            type="submit"
+            value="{{useri}}"
+            class="py-[8px] text-[20px] cursor-pointer shadow-sm hover:text-[red]"
+          />
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+  <div class="right" id="display">
+    {% if chat %}
+    <input type="hidden" id="room_name" value="{{ room }}" />
+    <div>
+      <div
+        class="w-[100%] h-[50px] bg-[#32573a] rounded-[20px] sticky top-[0px] left-0 flex items-center"
+      >
+        <div class="ml-[20px]">
+          <a href='{% url "chat" %}' class="">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              width="50px"
+              height="40px"
+              viewBox="0 -6.5 38 38"
+              version="1.1"
+              fill="#000000"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0" />
+
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+
+              <g id="SVGRepo_iconCarrier">
+                <title>left-arrow</title>
+                <desc>Created with Sketch.</desc>
+                <g
+                  id="icons"
+                  stroke="none"
+                  stroke-width="1"
+                  fill="none"
+                  fill-rule="evenodd"
+                >
+                  <g
+                    id="ui-gambling-website-lined-icnos-casinoshunter"
+                    transform="translate(-1641.000000, -158.000000)"
+                    fill="#1C1C1F"
+                    fill-rule="nonzero"
+                  >
+                    <g id="1" transform="translate(1350.000000, 120.000000)">
+                      <path
+                        d="M317.812138,38.5802109 L328.325224,49.0042713 L328.41312,49.0858421 C328.764883,49.4346574 328.96954,49.8946897 329,50.4382227 L328.998248,50.6209428 C328.97273,51.0514917 328.80819,51.4628128 328.48394,51.8313977 L328.36126,51.9580208 L317.812138,62.4197891 C317.031988,63.1934036 315.770571,63.1934036 314.990421,62.4197891 C314.205605,61.6415481 314.205605,60.3762573 314.990358,59.5980789 L322.274264,52.3739093 L292.99947,52.3746291 C291.897068,52.3746291 291,51.4850764 291,50.3835318 C291,49.2819872 291.897068,48.3924345 292.999445,48.3924345 L322.039203,48.3917152 L314.990421,41.4019837 C314.205605,40.6237427 314.205605,39.3584519 314.990421,38.5802109 C315.770571,37.8065964 317.031988,37.8065964 317.812138,38.5802109 Z"
+                        id="left-arrow"
+                        transform="translate(310.000000, 50.500000) scale(-1, 1) translate(-310.000000, -50.500000) "
+                      ></path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </a>
+        </div>
+
+        <div>
+          <h1
+            class="text-[20px] text-[white] font-[800] font-mono ml-[30px]"
+            id="sob"
+          >
+            {{ room }}
+          </h1>
+        </div>
+      </div>
+      <div id="chat" class="flex flex-col pb-[70px]"></div>
+      <div class="relative">
+        <form id="post-form-message" action="" method="post">
+          {% csrf_token %}
+
+          <div
+            class="flex my-[5px] fixed bottom-[10px] left-0 w-[100%] bg-[#ffffff]"
+          >
+            <textarea
+              type=""
+              rows="1"
+              name="value"
+              maxlength="1000000"
+              required=""
+              id="id_value"
+              placeholder="Введите сообщение"
+              class="w-[100%] rounded-[15px] p-[10px] text-[16px] border-[3px]"
+              required
+            ></textarea>
+            <div class="flex">
+              <button type="submit" class="items-center justify-center">
+                <img
+                  class="w-[60px] h-[50px] rounded-[50%]"
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Antu_mail-sent.svg/768px-Antu_mail-sent.svg.png"
+                />
+              </button>
+            </div>
+          </div>
+
+          <input
+            type="hidden"
+            name="user"
+            maxlength="1000000"
+            required=""
+            id="id_user"
+            value="{{username}}"
+          />
+
+          <input
+            type="hidden"
+            name="room"
+            maxlength="1000000"
+            required=""
+            id="id_room"
+            value="{{room_details.id}}"
+          />
+           <input
+            type="hidden"
+            name="room"
+            maxlength="1000000"
+            required=""
+            id="username"
+            value="{{ user.username }}"
+          />
+        </form>
+        <h1 id="footer"></h1>
+      </div>
+      <div>
+        <script>
+          const getData1 = async () => {
+            let room = "{{room}}";
+            let ar = room.split("|");
+            let ur = ar.reverse().join("|");
+
+            const { data } = await axios.get(`/chat/getMessages/${ur}/`);
+            let num;
+
+            console.log(data.messages);
+            datu = data.messages;
+            if (datu.length > 0) {
+              if (datu.length != num) {
+                $("#chat").empty();
+
+                datu.forEach((el, i) => {
+                  let temp;
+                  if (el.user == "{{ username }}") {
+                    temp = `<div class="flex w-full mt-2 space-x-3  justify-end "><div><div class="bg-[#175017] p-3 rounded-r-lg rounded-bl-lg"><p class="text-sm text-[white]">${el.value}</p></div><span class="text-xs text-gray-500 leading-none">2 min ago</span></div><div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div></div>`;
+                  } else {
+                    temp = `<div class="flex w-full mt-2 space-x-3 "><div class="flex-shrink-0 h-10 w-10 rounded-full bg-[#464343] "></div><div><div class="bg-[#464343] p-3 rounded-r-lg rounded-bl-lg"><p class="text-sm text-[white]">${el.value}</p></div><span class="text-xs text-gray-500 leading-none">2 min ago</span></div></div>`;
+                  }
+                  $("#chat").append(temp);
+                });
+              }
+              num = datu.length;
+            }
+          };
+          const getData2 = async () => {
+            let { data } = await axios.get(`/chat/getMessages/{{ room }}/`);
+            let num;
+
+            datu = data.messages;
+
+            if (datu.length > 0) {
+              if (datu.length != num) {
+                $("#chat").empty();
+                datu.forEach((el) => {
+                  let temp;
+                  if (el.user == "{{ username }}") {
+                    temp = `<div class="flex w-full mt-2 space-x-3  justify-end "><div><div class="bg-[#175017] p-3 rounded-r-lg rounded-bl-lg"><p class="text-sm text-[white]">${el.value}</p></div><span class="text-xs text-gray-500 leading-none">2 min ago</span></div><div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300"></div></div>`;
+                  } else {
+                    temp = `<div class="flex w-full mt-2 space-x-3 "><div class="flex-shrink-0 h-10 w-10 rounded-full bg-[#464343] "></div><div><div class="bg-[#464343] p-3 rounded-r-lg rounded-bl-lg"><p class="text-sm text-[white]">${el.value}</p></div><span class="text-xs text-gray-500 leading-none">2 min ago</span></div></div>`;
+                  }
+                  $("#chat").append(temp);
+                });
+              }
+              num = datu.length;
+            }
+          };
+          getData1();
+          setInterval(() => {
+            getData2();
+          }, 500);
+        </script>
+
+        {% else %}
+        <h1>Выберите чат</h1>
+        {% endif %}
+      </div>
+    </div>
+    {% else %}
+    <h1></h1>
+    <a href='{% url "loginuser" %}'> Регистрация </a>
+    {% endif %} {% endblock %}
+  </div>
+</div>

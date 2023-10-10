@@ -1,0 +1,23 @@
+{% extends 'portfolio/_base.html' %} 
+{% block title %}Shop{% endblock %}
+{% load static %} {% block content %}
+<div class="container1">
+  <h1 class="text-[20px] text-bold">Shop You Phone With Us</h1>
+  <h2 class="text-[red] text-[15px]">Количество товаров {{ phones.count }}</h2>
+  <div class="flex flex-wrap justify-center">
+    {% for phone in phones %}
+
+    <div class="">
+      <div class="h-[400px]">
+        <img src="{{phone.img.url}}" alt="" class="w-[100%] h-[100%]" />
+      </div>
+      <h1 class="text-[18px] font-[500] text-[red] text-center">
+        <a href="{{ phone.get_absolute_url }}">{{phone.name}}</a>
+      </h1>
+      <h1 class="text-[16px] font-serif text-center">{{phone.price}}</h1>
+    </div>
+
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

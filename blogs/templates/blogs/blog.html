@@ -1,0 +1,32 @@
+{% extends 'portfolio/_base.html' %} 
+{% block title %}Blog{% endblock %}
+{% load static %} {% block content %}
+<div class="mt-[24px]">
+  <h1 class="text-[28px] font-mono text-center text-[#181425] font-[700]">
+    Бехтарин маколахое, ки ман мутоли кардам!!!
+  </h1>
+  {% if tag %}
+  <h1>
+    Tag : {{ tag.name }}
+  </h1>
+  {% endif %}
+</div>
+
+{% for blog in blogs %}
+<a href="{{blog.get_absolute_url}}">
+  <div class="mb-[15px]">
+    <h1 class="text-[25px] text-[blue] font-[700] tab:text-[20px]">{{blog.title}}</h1>
+    <div class="flex gap-[20px]">
+      <h1 class="text-[15px] font-[500] tab:text-[12px]">{{ blog.date|date:"d M Y" }}</h1>
+      <h1 class="text-[15px] font-sans font-[500] tab:text-[12px]">
+        Аз тарафи {{blog.author}} соати {{blog.date|date:'h:m'}} дохил карда шуд
+      </h1>
+    </div>
+
+    <h1 class="w-[400px] tab:w-[100%] font-[400]">{{ blog.text|truncatechars:100|linebreaks }}</h1>
+  </div>
+</a>
+{% endfor %}
+<a href=''>Create a new Blog Post</a>
+{% include 'portfolio/pagination.html' with page=blogs %}
+{% endblock %}
